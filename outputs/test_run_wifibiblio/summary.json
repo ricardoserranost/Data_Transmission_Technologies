@@ -1,0 +1,21 @@
+{
+  "files_total": 3,
+  "files_failed": 0,
+  "error_rate": 0.0,
+  "bytes_total": 265161,
+  "wall_seconds": 1.499040300026536,
+  "throughput_mbps_wall": 1.4150973792782282,
+  "per_file_latency_s": {
+    "p50": 0.7170734000392258,
+    "p90": 1.3269131599925459,
+    "p95": 1.4031431299867108,
+    "p99": 1.4641271059820429
+  },
+  "concurrency": 8,
+  "chunk_mb": 32,
+  "retries": 3,
+  "prefix": "test_data_torino/",
+  "nic": "aggregate",
+  "sys_interval": 1.0,
+  "timestamp": "2025-09-05T15:54:13.834965Z"
+}

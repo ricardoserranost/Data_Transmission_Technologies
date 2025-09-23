@@ -1,0 +1,21 @@
+{
+  "files_total": 300,
+  "files_failed": 0,
+  "error_rate": 0.0,
+  "bytes_total": 125777247,
+  "wall_seconds": 18.026136800064705,
+  "throughput_mbps_wall": 55.819945624532714,
+  "per_file_latency_s": {
+    "p50": 0.4202555500669405,
+    "p90": 0.6264970100251961,
+    "p95": 0.7870642600173602,
+    "p99": 1.6041730950900803
+  },
+  "concurrency": 8,
+  "chunk_mb": 32,
+  "retries": 3,
+  "prefix": "images_1080p/",
+  "nic": "aggregate",
+  "sys_interval": 1.0,
+  "timestamp": "2025-09-05T16:07:29.432348Z"
+}

@@ -1,0 +1,4 @@
+file,blob,size_bytes,duration_s,retries,status,error
+TEST DATA\test_folder\4k-3840-x-2160-wallpapers-themefoxx (3).jpg,test_data//4k-3840-x-2160-wallpapers-themefoxx (3).jpg,80345,1.3006714999792166,0,ok,
+TEST DATA\test_folder\4k-3840-x-2160-wallpapers-themefoxx (2).jpg,test_data//4k-3840-x-2160-wallpapers-themefoxx (2).jpg,78416,1.3047189000062644,0,ok,
+TEST DATA\test_folder\4k-3840-x-2160-wallpapers-themefoxx (1).jpg,test_data//4k-3840-x-2160-wallpapers-themefoxx (1).jpg,106400,1.3174899999867193,0,ok,

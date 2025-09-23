@@ -1,0 +1,21 @@
+{
+  "files_total": 300,
+  "files_failed": 0,
+  "error_rate": 0.0,
+  "bytes_total": 862054063,
+  "wall_seconds": 303.99737329999334,
+  "throughput_mbps_wall": 22.685829252854766,
+  "per_file_latency_s": {
+    "p50": 6.464182550014812,
+    "p90": 13.801457340002528,
+    "p95": 16.80152283500356,
+    "p99": 34.47883605698614
+  },
+  "concurrency": 8,
+  "chunk_mb": 32,
+  "retries": 3,
+  "prefix": "images_4k/",
+  "nic": "aggregate",
+  "sys_interval": 1.0,
+  "timestamp": "2025-09-21T12:18:40.814240Z"
+}

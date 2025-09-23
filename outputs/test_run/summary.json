@@ -1,0 +1,21 @@
+{
+  "files_total": 3,
+  "files_failed": 0,
+  "error_rate": 0.0,
+  "bytes_total": 265161,
+  "wall_seconds": 1.349338700005319,
+  "throughput_mbps_wall": 1.5720945378589068,
+  "per_file_latency_s": {
+    "p50": 1.3047189000062644,
+    "p90": 1.3149357799906283,
+    "p95": 1.3162128899886738,
+    "p99": 1.3172345779871102
+  },
+  "concurrency": 8,
+  "chunk_mb": 32,
+  "retries": 3,
+  "prefix": "test_data/",
+  "nic": "aggregate",
+  "sys_interval": 1.0,
+  "timestamp": "2025-08-30T11:24:50.844768Z"
+}

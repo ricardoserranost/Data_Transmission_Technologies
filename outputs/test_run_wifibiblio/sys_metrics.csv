@@ -1,0 +1,3 @@
+ts,cpu_percent,ram_percent,bytes_sent,bytes_recv,packets_sent,packets_recv,nic
+2025-09-05T17:54:12.356827,0.0,71.6,187206422,754631016,163242,1496990,aggregate
+2025-09-05T17:54:13.371034,17.9,71.6,187493093,754683664,163295,1497179,aggregate

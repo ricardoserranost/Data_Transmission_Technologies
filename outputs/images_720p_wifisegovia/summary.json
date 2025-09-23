@@ -1,0 +1,21 @@
+{
+  "files_total": 300,
+  "files_failed": 0,
+  "error_rate": 0.0,
+  "bytes_total": 57774528,
+  "wall_seconds": 36.80976030003512,
+  "throughput_mbps_wall": 12.556349735305368,
+  "per_file_latency_s": {
+    "p50": 0.8498720000206959,
+    "p90": 1.4980850399879273,
+    "p95": 2.0064117450121564,
+    "p99": 3.3592767910147074
+  },
+  "concurrency": 8,
+  "chunk_mb": 32,
+  "retries": 3,
+  "prefix": "images_test/",
+  "nic": "aggregate",
+  "sys_interval": 1.0,
+  "timestamp": "2025-08-30T15:58:05.666750Z"
+}

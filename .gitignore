@@ -1,0 +1,18 @@
+# Ignore data and images
+*.jpg
+*.jpeg
+*.png
+*.mp4
+*.avi
+data/
+images/
+results/
+
+# Ignore temporary or system files
+__pycache__/
+*.pyc
+.DS_Store
+
+# Ignore large files
+*.zip
+*.tar.gz

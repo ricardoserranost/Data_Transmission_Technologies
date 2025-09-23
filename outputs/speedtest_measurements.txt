@@ -1,0 +1,4 @@
+Place; Download(Mbps); Upload(Mbps);
+
+wifisegovia; ; 
+wifibiblio(campus); 69.73; 58.83
