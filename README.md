@@ -11,10 +11,10 @@ This small toolkit lets you measure upload performance to **Google Cloud Storage
 
 ---
 
-## 0) Prereqs
+## Prereqs
 - Python 3.9+
 - Install the Google Cloud CLI (`gcloud`)
-- A GCS bucket you can write to (e.g., `gs://bucket`)
+- A GCS bucket configured (e.g., `gs://bucket`)
 - gcloud auth application-default login
 
 ## Example of use:
@@ -27,8 +27,5 @@ python .\cloud_perf_test.py
 ## HELP
 To see available arguments and get help, run the script with the --help flag in the terminal:
 python .\cloud_perf_test.py --help
-
-### Example of use:
-python .\cloud_perf_test.py --folder path\to\your\data
 
 

@@ -38,7 +38,7 @@ with open(manifest_file, mode="w", newline="") as csvfile:
         src_path = os.path.join(input_folder, fname)
         img = cv2.imread(src_path)
         if img is None:
-            print(f"⚠️ Could not read {fname}, skipping.")
+            print(f"Could not read {fname}, skipping.")
             continue
 
         # Resize 1080p
@@ -53,53 +53,7 @@ with open(manifest_file, mode="w", newline="") as csvfile:
         cv2.imwrite(out_720p, img_720p, [int(cv2.IMWRITE_JPEG_QUALITY), jpeg_quality])
         writer.writerow([fname, "720p", os.path.getsize(out_720p)])
 
-        print(f"✔ Processed {fname}")
+        print(f"Processed {fname}")
 
 print(f"\n Done! Manifest saved to '{manifest_file}'")
 
-
-
-""" ORIGINAL WITHOUT TAKIN INTO ACCOUNT FILE TYPE"""
-"""
-import os
-import cv2
-
-# Paths
-input_folder = "TEST DATA/images_4k"       # Folder containing your 4K images
-output_1080p = "TEST DATA/images_1080p"
-output_720p = "TEST DATA/images_720p"
-
-# Create output directories if they don't exist
-os.makedirs(output_1080p, exist_ok=True)
-os.makedirs(output_720p, exist_ok=True)
-
-# Target resolutions
-res_1080p = (1920, 1080)
-res_720p = (1280, 720)
-
-# Supported image extensions
-valid_exts = (".jpg", ".jpeg", ".png", ".bmp", ".tiff")
-
-# Process images
-for filename in os.listdir(input_folder):
-    if filename.lower().endswith(valid_exts):
-        filepath = os.path.join(input_folder, filename)
-        
-        # Load image
-        img = cv2.imread(filepath)
-        if img is None:
-            print(f"⚠️ Could not read {filename}, skipping.")
-            continue
-        
-        # Resize to 1080p
-        img_1080p = cv2.resize(img, res_1080p, interpolation=cv2.INTER_AREA)
-        cv2.imwrite(os.path.join(output_1080p, filename), img_1080p)
-        
-        # Resize to 720p
-        img_720p = cv2.resize(img, res_720p, interpolation=cv2.INTER_AREA)
-        cv2.imwrite(os.path.join(output_720p, filename), img_720p)
-        
-        print(f"✔ Processed {filename}")
-
-print("\n✅ Done! All images saved in 'images_1080p' and 'images_720p'.")
-"""

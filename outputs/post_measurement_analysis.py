@@ -7,7 +7,7 @@ def main():
     # --- CONFIG ---
     ap = argparse.ArgumentParser(description="Get extra metrics from saved results")
     ap.add_argument("--folder", required=True, help="Folder where results were saved")
-    ap.add_argument("--outdir", required=False, default=False)
+    ap.add_argument("--outdir", required=False, default=False, help="Directory where results are saved as a .json, results are not saved as default")
     args = ap.parse_args()
 
     folder = Path(args.folder)# carpeta donde están sys_metrics.csv y summary.json
