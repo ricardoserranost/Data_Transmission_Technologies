@@ -18,14 +18,16 @@ This small toolkit lets you measure upload performance to **Google Cloud Storage
 - gcloud auth application-default login
 
 ## Example of use:
+```bash
 python .\cloud_perf_test.py 
   --folder ".\TEST DATA\test_folder" 
   --bucket upload-bucket-ricardo 
   --prefix test_data/ 
   --outdir ".\outputs\test_run"
-
+```
 ## HELP
 To see available arguments and get help, run the script with the --help flag in the terminal:
+```bash
 python .\cloud_perf_test.py --help
 
 
