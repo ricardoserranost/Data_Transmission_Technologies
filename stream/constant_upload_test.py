@@ -7,6 +7,7 @@ from google.cloud import storage
 import numpy as np
 import threading
 from collections import deque
+from queue import Queue, Full, Empty
 import cv2
 from io import BytesIO
 
@@ -79,6 +80,7 @@ def main():
     ap.add_argument("--max-fps", type=int, default=30, help="Maximum FPS")
     ap.add_argument("--max-seconds", type=int, default=300, help="Max streaming time (s)")
     ap.add_argument("--max-mb", type=int, default=500, help="Max total upload (MB)")
+    ap.add_argument("--queue-size", type=int, default=20, help="Max for streaming queue")
     ap.add_argument("--drop-resolution", type=int, default=0, help="Set to 1 to drop all images to 720p")
     args = ap.parse_args()
 
@@ -105,19 +107,35 @@ def main():
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
+    frame_queue = Queue(maxsize=args.queue_size)
     rows = []
     sent_bytes = 0
     start_time = time.time()
     fps = args.init_fps
-    interval = 1.0 / fps
 
-    # To measure the FPS moving average, the uploads are saved
-    recent_uploads = deque(maxlen=20)  # store last 20 frame durations
-    recent_lock = threading.Lock() # To not cause race conditions with shared data
+    recent_lock = threading.Lock()
+    recent_uploads = deque(maxlen=20)
 
-    print(f"Starting streaming at {fps} FPS")
+    def uploader_worker():
+        nonlocal sent_bytes
+        while not stop_evt.is_set() or not frame_queue.empty():
+            try:
+                data = frame_queue.get(timeout=0.5)
+            except Empty:
+                continue
+            r = upload_one_bytes(client, args.bucket, data, args.prefix, args.retries, args.timeout_s)
+            rows.append(r)
+            sent_bytes += r["size_bytes"]
+            frame_queue.task_done()
+            with recent_lock:
+                recent_uploads.append(r["duration_s"])
+            print(f"Frame: {r['status']} {r['duration_s']:.2f}s, retries={r['retries']}")
 
+    # Start uploader threads
     with cf.ThreadPoolExecutor(max_workers=args.concurrency) as ex:
+        for _ in range(args.concurrency):
+            ex.submit(uploader_worker)
+
         try:
             while True:
                 loop_start = time.perf_counter()
@@ -131,29 +149,19 @@ def main():
                     continue
                 data = buf.tobytes()
 
-                fut = ex.submit(upload_one_bytes, client, args.bucket, data, args.prefix, args.retries, args.timeout_s)
-                r = fut.result()
-                rows.append(r)
-                sent_bytes += r["size_bytes"]
+                try:
+                    frame_queue.put_nowait(data)
+                except Full:
+                    print("Queue full, dropping frame")
 
-                print(f"Frame: {r['status']} {r['duration_s']:.2f}s, retries={r['retries']}")
-
-                # Record duration in thread-safe way
-                with recent_lock:
-                    recent_uploads.append(r["duration_s"])
-
-                # Compute moving average duration
-                with recent_lock:
-                    avg_upload_time = sum(recent_uploads) / len(recent_uploads) if recent_uploads else r["duration_s"]
-
-                # Adjust FPS based on average upload time
-                target_interval = 1.0 / fps
-                if avg_upload_time > target_interval * 1.2 and fps > args.min_fps:
+                # Adjust FPS based on queue occupancy
+                qsize = frame_queue.qsize()
+                if qsize > args.queue_size * 0.8 and fps > args.min_fps:
                     fps -= 1
-                    print("New fps : ", fps)
-                elif avg_upload_time < target_interval * 0.8 and fps < args.max_fps:
+                    print("New FPS: ", fps)
+                elif qsize < args.queue_size * 0.2 and fps < args.max_fps:
                     fps += 1
-                    print("New fps : ", fps)
+                    print("New FPS: ", fps)
                 interval = 1.0 / fps
 
                 # Stop conditions
