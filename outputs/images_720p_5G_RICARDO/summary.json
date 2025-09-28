@@ -1,0 +1,21 @@
+{
+  "files_total": 300,
+  "files_failed": 0,
+  "error_rate": 0.0,
+  "bytes_total": 57774528,
+  "wall_seconds": 10.81481170002371,
+  "throughput_mbps_wall": 42.73733439103583,
+  "per_file_latency_s": {
+    "p50": 0.24769460002426058,
+    "p90": 0.3495950199663642,
+    "p95": 0.4971766949864105,
+    "p99": 1.3443102849787099
+  },
+  "concurrency": 8,
+  "chunk_mb": 32,
+  "retries": 3,
+  "prefix": "images_720p/",
+  "nic": "aggregate",
+  "sys_interval": 1.0,
+  "timestamp": "2025-09-25T14:48:58.874713Z"
+}
