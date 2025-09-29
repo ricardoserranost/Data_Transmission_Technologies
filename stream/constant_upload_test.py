@@ -81,7 +81,7 @@ def main():
     ap.add_argument("--max-seconds", type=int, default=300, help="Max streaming time (s)")
     ap.add_argument("--max-mb", type=int, default=500, help="Max total upload (MB)")
     ap.add_argument("--queue-size", type=int, default=20, help="Max for streaming queue")
-    ap.add_argument("--drop-resolution", type=int, default=0, help="Set to 1 to drop all images to 720p")
+    ap.add_argument("--force-resolution", type=int, default=0, help="Set to 1 to drop all images to 720p")
     args = ap.parse_args()
 
     outdir = Path(args.outdir)
@@ -103,13 +103,16 @@ def main():
     if not cap.isOpened():
         raise SystemExit("Could not open webcam")
     
-    if args.drop_resolution==1:
+    if args.force_resolution==1:
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
     frame_queue = Queue(maxsize=args.queue_size)
     rows = []
     sent_bytes = 0
+    frames_done = 0
+    real_fps = 0.0
+    last_fps_print = time.time()
     start_time = time.time()
     fps = args.init_fps
 
@@ -154,6 +157,14 @@ def main():
                 except Full:
                     print("Queue full, dropping frame")
 
+                # Track FPS:
+                frames_done += 1
+                now = time.time()
+                if now - last_fps_print >= 1.0:
+                    real_fps = frames_done / (now - start_time)
+                    print(f"\t\tTarget FPS={fps}, Real FPS={real_fps:.2f}, Queue={frame_queue.qsize()}")
+                    last_fps_print = now
+
                 # Adjust FPS based on queue occupancy
                 qsize = frame_queue.qsize()
                 if qsize > args.queue_size * 0.8 and fps > args.min_fps:
@@ -162,6 +173,7 @@ def main():
                 elif qsize < args.queue_size * 0.2 and fps < args.max_fps:
                     fps += 1
                     print("New FPS: ", fps)
+
                 interval = 1.0 / fps
 
                 # Stop conditions
@@ -195,11 +207,14 @@ def main():
     def pct(a, p): 
         return float(np.percentile(a, p)) if a.size else None
 
+    real_fps = frames_done / wall if wall > 0 else 0.0
+
     summary = {
         "frames_total": len(rows),
         "bytes_total": int(total_bytes),
         "wall_seconds": wall,
         "throughput_mbps_wall": agg_mbps,
+        "FPS_avg": real_fps,
         "per_frame_latency_s": {
             "p50": pct(durs, 50),
             "p90": pct(durs, 90),
@@ -219,6 +234,8 @@ def main():
     print("\n=== SUMMARY ===")
     print(json.dumps(summary, indent=2))
     print(f"\nWrote results in {outdir}:\n - uploads_log.csv, sys_metrics.csv, summary.json")
+    
+    
 
 
 if __name__ == "__main__":
