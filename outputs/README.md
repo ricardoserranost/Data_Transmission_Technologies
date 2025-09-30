@@ -1,5 +1,5 @@
 # Obtain metrics
-The script takes the data obtained during the experiment and computes an estimate overhead, considering the total bytes sent and the byte size of the files sent.
+The script takes the data obtained during the experiment and computes an estimate overhead, considering the total bytes sent and the byte size of the files sent. (Not used for the report finally)
 
 ## Example of use:
 python post_measurement_analysis.py --folder "test_wifi" --outdir "test_wifi"

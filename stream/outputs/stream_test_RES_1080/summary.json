@@ -1,0 +1,18 @@
+{
+  "frames_total": 285,
+  "bytes_total": 42449311,
+  "wall_seconds": 26.401734590530396,
+  "throughput_mbps_wall": 12.862582450238083,
+  "FPS_avg": 11.097755679473096,
+  "per_frame_latency_s": {
+    "p50": 0.3414499000646174,
+    "p90": 0.397844500024803,
+    "p95": 0.41298426000867045,
+    "p99": 0.9299108999967579
+  },
+  "concurrency": 4,
+  "prefix": "stream_test/",
+  "nic": "aggregate",
+  "sys_interval": 1.0,
+  "timestamp": "2025-09-29T17:47:55.584049Z"
+}

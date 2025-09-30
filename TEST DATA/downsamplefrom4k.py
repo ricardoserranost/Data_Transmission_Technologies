@@ -5,7 +5,7 @@ import csv
 import cv2
 
 # ===== CONFIGURATION =====
-input_folder = "images_4k"       # Your existing 4K images folder
+input_folder = "images_4k"       # 4K images folder
 output_1080p = "images_1080p"
 output_720p = "images_720p"
 sample_count = 300               # Number of images to randomly sample
